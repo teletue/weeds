@@ -1,4 +1,5 @@
-﻿export const revalidate = 600;
+﻿// Render dynamically at request time to avoid build-time external fetches
+export const dynamic = "force-dynamic";
 
 import Link from "next/link";
 import Parser from "rss-parser";
