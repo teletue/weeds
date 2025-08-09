@@ -5,3 +5,14 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+export const redirects = async () => {
+  return [
+    {
+      source: "/:path*",
+      has: [{ type: "host", value: "www.weeds.dk" }],
+      destination: "https://weeds.dk/:path*",
+      permanent: true,
+    },
+  ];
+};
