@@ -23,6 +23,17 @@
   }
 }
 
+/* Explicit dark theme override (via html.theme-dark) */
+html.theme-dark {
+  --background: #0a0a0a;
+  --foreground: #e5e7eb;
+  --card: #0f0f10;
+  --muted: #111215;
+  --border: #2a2a2e;
+  --primary: #22c55e;
+  --primary-foreground: #072b12;
+}
+
 /* Map tokens to Tailwind theme (v4) */
 @theme inline {
   --color-bg: var(--background);

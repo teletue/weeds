@@ -3,9 +3,11 @@ import { fetchAggregatedNews, FEED_URLS } from "@/lib/rss";
 
 export const dynamic = "force-dynamic";
 
-export default async function Emner() {
+export default async function Emner({ searchParams }: { searchParams?: { kilde?: string } }) {
   const news = await fetchAggregatedNews(60);
-  const sources = new Set(news.map((n) => n.source));
+  const sources = Array.from(new Set(news.map((n) => n.source)));
+  const selected = searchParams?.kilde;
+  const filtered = selected ? news.filter((n) => n.source === selected) : news;
   return (
     <div className="mx-auto max-w-5xl p-6">
       <h1 className="text-2xl font-semibold mb-4">Emner & kilder</h1>
@@ -13,15 +15,24 @@ export default async function Emner() {
         Filtrer ved at vælge en kilde. (Første version — emne‑tagging kommer
         senere.)
       </p>
-      <div className="flex flex-wrap gap-2 mb-6">
-        {Array.from(sources).map((s) => (
-          <span key={s} className="text-xs bg-gray-100 px-2 py-1 rounded-full">
-            {s}
-          </span>
-        ))}
-      </div>
+      <form className="mb-6">
+        <label className="text-sm mr-2">Kilde:</label>
+        <select className="border rounded px-2 py-1" name="kilde" defaultValue={selected || ""} onChange={(e)=>{
+          if (typeof window !== 'undefined') {
+            const val = e.currentTarget.value;
+            const url = new URL(window.location.href);
+            if (val) url.searchParams.set('kilde', val); else url.searchParams.delete('kilde');
+            window.location.href = url.toString();
+          }
+        }}>
+          <option value="">Alle</option>
+          {sources.map((s) => (
+            <option key={s} value={s}>{s}</option>
+          ))}
+        </select>
+      </form>
       <ul className="space-y-4">
-        {news.map((item) => (
+        {filtered.map((item) => (
           <li key={item.link} className="border rounded-lg p-4">
             <div className="text-sm text-gray-500">{item.source}</div>
             <Link href={item.link} target="_blank" className="text-lg font-semibold text-blue-700 hover:underline">

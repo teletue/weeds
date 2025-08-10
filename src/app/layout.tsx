@@ -50,7 +50,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-dvh flex flex-col`}
       >
-        <header className="border-b bg-white">
+        <header className="border-b bg-[--color-card]">
           <div className="mx-auto max-w-5xl px-4 py-4 flex items-center justify-between">
             <Link href="/" className="text-xl font-semibold">Weeds.dk</Link>
             <nav className="flex gap-5 text-sm">
@@ -60,10 +60,23 @@ export default function RootLayout({
               <Link href="/om" className="hover:underline">Om</Link>
               <Link href="/kontakt" className="hover:underline">Kontakt</Link>
             </nav>
+            <button
+              type="button"
+              className="text-sm px-3 py-1 rounded border"
+              onClick={() => {
+                if (typeof document !== 'undefined') {
+                  const el = document.documentElement;
+                  el.classList.toggle('theme-dark');
+                  try {
+                    localStorage.setItem('wd-theme', el.classList.contains('theme-dark') ? 'dark' : 'light');
+                  } catch {}
+                }
+              }}
+            >Tema</button>
           </div>
         </header>
         <main className="grow">{children}</main>
-        <footer className="mt-12 border-t bg-white">
+        <footer className="mt-12 border-t bg-[--color-card]">
           <div className="mx-auto max-w-5xl px-4 py-6 text-sm text-gray-600 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
             <p>© {new Date().getFullYear()} Weeds.dk</p>
             <div className="flex gap-4">
