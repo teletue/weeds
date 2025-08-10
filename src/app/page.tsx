@@ -31,7 +31,7 @@ export default async function HomePage() {
       <p className="text-gray-600 mb-6 text-sm">Seneste artikler fra udvalgte kilder. Titler og resumé kan være automatisk oversat.</p>
       <ul className="space-y-4">
         {news.map((item) => (
-          <li key={item.link} className="border rounded-lg p-4 hover:bg-gray-50">
+          <li key={item.link} className="border border-[--color-border] bg-[--color-card] rounded-lg p-4 hover:bg-[--color-muted]">
             <div className="text-sm text-gray-500 flex items-center gap-2">
               <span className="inline-flex items-center gap-1 text-xs text-gray-600 bg-gray-100 px-2 py-0.5 rounded-full">Kilde: {item.source}</span>
               <span>•</span>

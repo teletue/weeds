@@ -1,26 +1,57 @@
 @import "tailwindcss";
 
+/* Design tokens */
 :root {
   --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --foreground: #111827; /* gray-900 */
+  --card: #ffffff;
+  --muted: #f3f4f6; /* gray-100 */
+  --border: #e5e7eb; /* gray-200 */
+  --primary: #16a34a; /* green-600 */
+  --primary-foreground: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #e5e7eb; /* gray-200 */
+    --card: #0f0f10;
+    --muted: #111215;
+    --border: #2a2a2e;
+    --primary: #22c55e; /* green-500 */
+    --primary-foreground: #072b12;
   }
+}
+
+/* Map tokens to Tailwind theme (v4) */
+@theme inline {
+  --color-bg: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+}
+
+/* Global base */
+html, body {
+  height: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+a { color: var(--primary); }
+
+.container {
+  max-width: 80rem; /* ~1280px */
 }
