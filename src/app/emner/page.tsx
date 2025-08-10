@@ -1,12 +1,21 @@
 import Link from "next/link";
-import { fetchAggregatedNews, FEED_URLS } from "@/lib/rss";
+import { fetchAggregatedNews } from "@/lib/rss";
 
 export const dynamic = "force-dynamic";
 
-export default async function Emner({ searchParams }: { searchParams?: { kilde?: string } }) {
+type SearchParams = { kilde?: string | string[] };
+
+export default async function Emner({
+  searchParams,
+}: {
+  searchParams?: Promise<SearchParams> | SearchParams;
+}) {
+  const params = (await (searchParams as Promise<SearchParams>)) ?? (searchParams as SearchParams) ?? {};
+  const selectedRaw = params.kilde;
+  const selected = Array.isArray(selectedRaw) ? selectedRaw[0] : selectedRaw;
+
   const news = await fetchAggregatedNews(60);
   const sources = Array.from(new Set(news.map((n) => n.source)));
-  const selected = searchParams?.kilde;
   const filtered = selected ? news.filter((n) => n.source === selected) : news;
   return (
     <div className="mx-auto max-w-5xl p-6">
