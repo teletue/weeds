@@ -25,10 +25,14 @@ function stripHtml(html?: string) {
 
 export default async function HomePage() {
   const news = await fetchAggregatedNews(50);
+  const hasNews = news.length > 0;
   return (
     <main className="mx-auto max-w-5xl p-6">
       <h1 className="text-3xl font-bold mb-2">Weeds.dk — Cannabis‑nyheder</h1>
       <p className="text-gray-600 mb-6 text-sm">Seneste artikler fra udvalgte kilder. Titler og resumé kan være automatisk oversat.</p>
+      {!hasNews ? (
+        <div className="text-gray-600">Ingen artikler lige nu. Prøv igen om et øjeblik.</div>
+      ) : (
       <ul className="space-y-4">
         {news.map((item) => (
           <li key={item.link} className="border border-[--color-border] bg-[--color-card] rounded-lg p-4 hover:bg-[--color-muted]">
@@ -47,6 +51,7 @@ export default async function HomePage() {
           </li>
         ))}
       </ul>
+      )}
     </main>
   );
 }
