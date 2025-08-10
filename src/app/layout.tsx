@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Link from "next/link";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -60,19 +61,7 @@ export default function RootLayout({
               <Link href="/om" className="hover:underline">Om</Link>
               <Link href="/kontakt" className="hover:underline">Kontakt</Link>
             </nav>
-            <button
-              type="button"
-              className="text-sm px-3 py-1 rounded border"
-              onClick={() => {
-                if (typeof document !== 'undefined') {
-                  const el = document.documentElement;
-                  el.classList.toggle('theme-dark');
-                  try {
-                    localStorage.setItem('wd-theme', el.classList.contains('theme-dark') ? 'dark' : 'light');
-                  } catch {}
-                }
-              }}
-            >Tema</button>
+            <ThemeToggle />
           </div>
         </header>
         <main className="grow">{children}</main>

@@ -3,16 +3,19 @@ import { fetchAggregatedNews } from "@/lib/rss";
 
 export const dynamic = "force-dynamic";
 
-type SearchParams = { kilde?: string | string[] };
+// Make props compatible with Next's PageProps (no Promise in the type)
+type NextSearchParams = { [key: string]: string | string[] | undefined };
 
 export default async function Emner({
   searchParams,
 }: {
-  searchParams?: Promise<SearchParams> | SearchParams;
+  // Conform to Next 15 PageProps: searchParams is a Promise
+  searchParams?: Promise<NextSearchParams>;
 }) {
-  const params = (await (searchParams as Promise<SearchParams>)) ?? (searchParams as SearchParams) ?? {};
-  const selectedRaw = params.kilde;
-  const selected = Array.isArray(selectedRaw) ? selectedRaw[0] : selectedRaw;
+  // Normalize to plain object
+  const sp = ((await (searchParams as Promise<NextSearchParams>)) ?? {}) as NextSearchParams;
+  const raw = sp["kilde"];
+  const selected = typeof raw === "string" ? raw : Array.isArray(raw) ? raw[0] : undefined;
 
   const news = await fetchAggregatedNews(60);
   const sources = Array.from(new Set(news.map((n) => n.source)));
